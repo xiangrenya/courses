@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>WebP Demo</title>
+    <style>
+        .box {
+            width: 200px;
+            height: 200px;
+            border: 1px solid #ddd;
+            background: url('./images/lady.jpg')
+        }
+        .webp .box {
+            background: url('./images/lady.webp')
+        }
+    </style>
+    <script>
+        if(document.createElement('canvas').toDataURL('image/webp').indexOf('data:image/webp') == 0){
+            document.querySelector('html').classList = 'webp'
+        }
+    </script>
+</head>
+<body>
+    <div class="box"></div>
+</body>
+</html>

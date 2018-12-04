@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Post Form to Iframe</title>
+    <script>
+      window.onload = () => {
+        const iframe = document.querySelector('iframe[name=myIframe]');
+        const form = document.querySelector('form');
+        form.onsubmit = () => {
+          // remove iframe firstly, then create iframe
+          document.querySelector('iframe[name=myIframe]').remove();
+          const node = document.createElement('iframe');
+          node.setAttribute('name', 'myIframe');
+          document.body.append(node);
+        };
+      };
+    </script>
+  </head>
+
+  <body>
+    <form action="http://127.0.0.1:3000/users" method="get" target="myIframe">
+      <input name="username" type="text" value="" />
+      <input name="password" type="password" value="" />
+      <button type="submit">Send to iFrame</button>
+    </form>
+    <iframe name="myIframe"></iframe>
+  </body>
+</html>

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>BigPipe Demo</title>
+    <style>
+        body {
+            display: flex;
+        }
+        .box {
+            width: 100px;
+            height: 100px;
+            border: 1px solid #ddd;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0 10px;
+        }
+    </style>
+    <script>
+      const BigPipe = {
+        view(selector, temp) {
+          document.querySelector(selector).innerHTML = temp;
+        }
+      };
+    </script>
+  </head>
+  <body>
+        <div id="a" class="box"></div>
+        <div id="b" class="box"></div>
+        <div id="c" class="box"></div>
