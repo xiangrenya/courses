@@ -1,0 +1,23 @@
+{
+  "name": "next-demo",
+  "version": "1.0.0",
+  "description": "next demo",
+  "main": "index.js",
+  "dependencies": {
+    "next": "^7.0.2",
+    "react": "^16.6.3",
+    "react-dom": "^16.6.3"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "dev": "next",
+    "buid": "next build",
+    "start": "next start"
+  },
+  "keywords": [
+    "next",
+    "react"
+  ],
+  "author": "xiangrenya@gmail.com",
+  "license": "MIT"
+}
