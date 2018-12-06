@@ -33,3 +33,7 @@ node_modules
 
 # Next
 .next
+
+# Others
+excel/langs
+excel/out.xlsx
