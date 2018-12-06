@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Iframe</title>
+  </head>
+  <body>
+    <div>来自父页面的消息：<span id="message"></span></div>
+    <button id="btn">发送</button>
+    <script>
+      window.addEventListener('message', receiveMessage, false);
+      function receiveMessage(e) {
+        console.log(e);
+        document.getElementById('message').innerText = e.data;
+      }
+      document.getElementById('btn').onclick = function() {
+        const data = 'hi mom !';
+        window.parent.postMessage(JSON.stringify(data), '*');
+        const obj = {
+          name: 'allen',
+          age: 28
+        };
+        window.parent.postMessage(obj, '*');
+      };
+    </script>
+  </body>
+</html>

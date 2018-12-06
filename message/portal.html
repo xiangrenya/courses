@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>PostMessage</title>
+    <style>
+      iframe {
+        margin-top: 30px;
+      }
+    </style>
+  </head>
+  <body>
+    <nav>
+      <ul>
+        <li>首页</li>
+        <li>产品</li>
+        <li>关于</li>
+      </ul>
+    </nav>
+    <div>来自子页面的消息：<span id="message"></span></div>
+    <div><button id="btn">发送</button></div>
+    <iframe id="myframe" src="./iframe.html"></iframe>
+    <script>
+      window.addEventListener('message', receiveMessage, false);
+      function receiveMessage(e) {
+        console.log(e);
+        const isObject = /\[object\s(\w+)\]/.exec(Object.prototype.toString.call(e.data))[1] === 'Object';
+        if(typeof e.data === 'string'){
+          document.getElementById('message').innerText = e.data;
+        } else if(isObject){
+          console.log(e.data);
+        }
+      }
+      document.getElementById('btn').onclick = function() {
+        const iframeWindow = document.getElementById('myframe').contentWindow;
+        const data = 'hi son !';
+        iframeWindow.postMessage(JSON.stringify(data), '*');
+      };
+    </script>
+  </body>
+</html>
