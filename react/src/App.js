@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Todo from './modules/Todo/Index';
 import logo from './logo.svg';
 import './App.css';
 
@@ -19,10 +20,10 @@ class App extends Component {
           >
             Learn React
           </a>
+          <Todo />
         </header>
       </div>
     );
   }
 }
-
 export default App;
