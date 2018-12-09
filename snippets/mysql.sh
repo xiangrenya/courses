@@ -27,3 +27,15 @@ firewall-cmd --zone=public --permanent --add-service=mysql
 systemctl restart firewalld
 # 查看防火墙的配置
 firewall-cmd --list-all
+
+# 导入官方提供的示例数据库：Employees Sample Database
+git clone https://github.com/datacharmer/test_db.git
+cd test_db
+# 执行导入sql脚本
+mysql -u root -p -t < employees.sql
+# 测试数据库的数据的完整性
+mysql -u root -p -t < test_employees_md5.sql
+# 参考资料：https://dev.mysql.com/doc/employee/en/
+
+# 客户端连接工具
+# Navicat_For_MySQL_11.1.13 链接: https://pan.baidu.com/s/1u55DPtNBGOnnvzQ7hWSUsw 提取码: dpd5
