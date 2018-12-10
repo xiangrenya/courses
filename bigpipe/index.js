@@ -16,9 +16,9 @@ const fetch = res => (selector, temp) =>
   });
 
 const modulesMap = {
-  'a': 'A',
-  'b': 'B',
-  'c': 'C'
+  a: 'A',
+  b: 'B',
+  c: 'C'
 };
 
 app.get('/', (req, res, next) => {
@@ -30,8 +30,9 @@ app.get('/', (req, res, next) => {
     promises.push(fetchPromise(`#${key}`, val));
   }
   Promise.all(promises).then(datas => {
+    res.write('</body></html>');
     res.end();
-  });
+  }); 
 });
 
 app.get('/users', (req, res, next) => {

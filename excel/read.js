@@ -1,3 +1,4 @@
+const fs = require('fs');
 const XLSX = require('xlsx');
 
 const workbook = XLSX.readFile('./in.xlsx');
@@ -28,6 +29,13 @@ const data = convertSheetToJson(worksheet);
 
 console.log(`worksheet: ${JSON.stringify(worksheet)}`);
 console.log(`data: ${JSON.stringify(data)}`);
+
+fs.writeFile('./data.json', JSON.stringify(data, null, 4), err => {
+  if (err) {
+    return console.log(err);
+  }
+  console.log('The file has been saved!');
+});
 
 // 学习笔记
 

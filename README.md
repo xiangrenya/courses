@@ -5,5 +5,6 @@
 - [x] 发布一个项目到npm上
 - [x] 在高级浏览器中，应用webp格式的图片资源，提高网站响应速度
 - [x] 父页面与内嵌iframe页面之间的通信
-- [x] 用node.js实现读写xlsx文件，并实现了将本地的多语言翻译，导出了excel文件
-- [ ] 在家里的虚拟机centos7上，部署生产环境 (node, mongodb, redis, mysql, nginx, git)
+- [x] 用node.js实现读写xlsx文件，导出json,excel文件，并实现了将本地的多语言翻译，导出了excel文件
+- [x] 在家里的虚拟机centos7上，部署生产环境 (node, mongodb, redis, mysql, nginx, git)
+- [x] 用koa实现上传下载文件

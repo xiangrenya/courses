@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>上传</title>
+  </head>
+  <body>
+    <h1>上传文件</h1>
+    <p>一次可以上传多个文件</p>
+    <form action="/api/upload" method="post" enctype="multipart/form-data">
+      <input type="file" name="file" multiple />
+      <input type="submit" value="上传" />
+    </form>
+    <ul id="files"></ul>
+    <iframe name="myIframe" style="display:none"></iframe>
+    <script>
+      fetch('http://localhost:3000/api/files')
+        .then(res => res.json())
+        .then(({ data }) => {
+          const html = data
+            .map(
+              item =>
+                `<li>
+                    <span>${item}</span>
+                    <button onClick=\"handleClick(\'${item}\')\">下载</button>
+                </li>`
+            )
+            .join('');
+          document.getElementById('files').innerHTML = html;
+        });
+      const handleClick = item => {
+        window.open(`/api/download/${item}`, 'myIframe');
+      };
+    </script>
+  </body>
+</html>
