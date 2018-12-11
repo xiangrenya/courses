@@ -13,11 +13,15 @@ exports.upload = async (ctx, next) => {
 // 也可以用下面这种方式自定义路径
 exports.upload_2 = async (ctx, next) => {
   const file = ctx.request.files.file;
-  const ext = file.name.split('.').pop();
-  const reader = fs.createReadStream(file.path);
-  const stream = fs.createWriteStream(`upload/${Date.now()}.${ext}`);
-  reader.pipe(stream);
-  console.log(`上传: ${file.name} -> ${stream.path}`);
+  if (typeof file === 'string') {
+    // 单个文件
+    pipeStream(file);
+  } else {
+    // 批量上传多个文件
+    file.forEach(f => {
+      pipeStream(f);
+    });
+  }
   ctx.body = {
     result: true,
     message: '上传成功'
@@ -41,3 +45,11 @@ exports.list = async ctx => {
     data: dir
   };
 };
+
+function pipeStream(file) {
+  const ext = file.name.split('.').pop();
+  const reader = fs.createReadStream(file.path);
+  const stream = fs.createWriteStream(`upload/${Date.now()}.${ext}`);
+  reader.pipe(stream);
+  console.log(`上传: ${file.name} -> ${stream.path}`);
+}
