@@ -19,30 +19,57 @@
     <div id="app"></div>
     <script src="https://unpkg.com/react@16/umd/react.development.js"></script>
     <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
-
     <script src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js"></script>
-
     <script type="text/babel">
-      function Upload(props) {
-        return (
-          <div>
-            <form
-              className="ui form"
-              action="/api/upload"
-              method="post"
-              encType="multipart/form-data"
-            >
-              <div className="inline field">
-                <label>选择文件</label>
-                <input className="ui input"type="file" name="file" multiple />
-              </div>
-              <button className="ui button green" type="submit">
-                上传
-              </button>
-            </form>
-            <iframe name="myIframe" style={{ display: 'none' }} />
-          </div>
-        );
+      class Upload extends React.Component {
+        handleUpload(e) {
+          e.preventDefault();
+          const formData = new FormData();
+          Array.from(document.querySelector('input[name=myFile]').files).forEach(file => {
+            formData.append('myFile', file);
+          });
+          console.log(formData);
+          const xhr = new XMLHttpRequest();
+          // 上传完成后的回调函数
+          xhr.onload = function() {
+            if (xhr.status === 200) {
+              console.log('上传成功');
+              xhr;
+            } else {
+              console.log('上传出错');
+            }
+          };
+          // 获取上传进度
+          xhr.upload.onprogress = function(event) {
+            if (event.lengthComputable) {
+              var percent = Math.floor((event.loaded / event.total) * 100);
+              console.log(percent);
+            }
+          };
+          xhr.open('POST', '/api/upload');
+          xhr.send(formData);
+        }
+
+        render() {
+          return (
+            <div>
+              <form className="ui form" onSubmit={this.handleUpload}>
+                <div className="inline field">
+                  <label>选择文件</label>
+                  <input
+                    className="ui input"
+                    type="file"
+                    name="myFile"
+                    multiple
+                  />
+                </div>
+                <button className="ui button green" type="submit">
+                  上传
+                </button>
+              </form>
+            </div>
+          );
+        }
       }
 
       class List extends React.Component {
@@ -69,44 +96,49 @@
 
         render() {
           return (
-            <table className="ui celled table">
-              <thead>
-                <tr>
-                  <th className="two wide">序号</th>
-                  <th className="ten wide">名称</th>
-                  <th className="four wide">操作</th>
-                </tr>
-              </thead>
-              <tbody>
-                {this.state.files.map((file, i) => (
-                  <tr key={i}>
-                    <td>{i + 1}</td>
-                    <td>{file}</td>
-                    <td>
-                      <button
-                        className="ui green mini button"
-                        onClick={() => this.handleClick(file)}
-                      >
-                        下载
-                      </button>
-                      <button
-                        className="ui red mini button"
-                        onClick={() => this.handleClick(file)}
-                      >
-                        删除
-                      </button>
-                    </td>
+            <div>
+              <table className="ui celled table">
+                <thead>
+                  <tr>
+                    <th className="two wide">序号</th>
+                    <th className="ten wide">名称</th>
+                    <th className="four wide">操作</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
+                </thead>
+                <tbody>
+                  {this.state.files.map((file, i) => (
+                    <tr key={i}>
+                      <td>{i + 1}</td>
+                      <td>{file}</td>
+                      <td>
+                        <button
+                          className="ui green mini button"
+                          onClick={() => this.handleClick(file)}
+                        >
+                          下载
+                        </button>
+                        <button
+                          className="ui red mini button"
+                          onClick={() => this.handleClick(file)}
+                        >
+                          删除
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+              <iframe name="myIframe" style={{ display: 'none' }} />
+            </div>
           );
         }
       }
 
       const App = props => (
         <div className="ui container">
-          <h1 className="ui header" style={{marginTop: '20px'}}>上传下载文件</h1>
+          <h1 className="ui header" style={{ marginTop: '20px' }}>
+            上传下载文件
+          </h1>
           <Upload />
           <List />
         </div>

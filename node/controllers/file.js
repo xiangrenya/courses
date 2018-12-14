@@ -3,7 +3,7 @@ const path = require('path');
 const send = require('koa-send');
 
 exports.upload = async (ctx, next) => {
-  console.log(ctx.request.files.file.path);
+  console.log(ctx.request.files.myFile);
   ctx.body = {
     result: true,
     message: '上传成功'
