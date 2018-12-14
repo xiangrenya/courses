@@ -1,35 +1,119 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>上传</title>
+    <title>上传下载文件</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <link rel="stylesheet" href="./css/semantic.css" />
+    <script
+      crossorigin
+      src="https://unpkg.com/react@16/umd/react.production.min.js"
+    ></script>
+    <script
+      crossorigin
+      src="https://unpkg.com/react-dom@16/umd/react-dom.production.min.js"
+    ></script>
   </head>
   <body>
-    <h1>上传文件</h1>
-    <p>一次可以上传多个文件</p>
-    <form action="/api/upload" method="post" enctype="multipart/form-data">
-      <input type="file" name="file" multiple />
-      <input type="submit" value="上传" />
-    </form>
-    <ul id="files"></ul>
-    <iframe name="myIframe" style="display:none"></iframe>
-    <script>
-      fetch('http://localhost:3000/api/files')
-        .then(res => res.json())
-        .then(({ data }) => {
-          const html = data
-            .map(
-              item =>
-                `<li>
-                    <span>${item}</span>
-                    <button onClick=\"handleClick(\'${item}\')\">下载</button>
-                </li>`
-            )
-            .join('');
-          document.getElementById('files').innerHTML = html;
-        });
-      const handleClick = item => {
-        window.open(`/api/download/${item}`, 'myIframe');
-      };
+    <div id="app"></div>
+    <script src="https://unpkg.com/react@16/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+
+    <script src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js"></script>
+
+    <script type="text/babel">
+      function Upload(props) {
+        return (
+          <div>
+            <form
+              className="ui form"
+              action="/api/upload"
+              method="post"
+              encType="multipart/form-data"
+            >
+              <div className="inline field">
+                <label>选择文件</label>
+                <input className="ui input"type="file" name="file" multiple />
+              </div>
+              <button className="ui button green" type="submit">
+                上传
+              </button>
+            </form>
+            <iframe name="myIframe" style={{ display: 'none' }} />
+          </div>
+        );
+      }
+
+      class List extends React.Component {
+        constructor(props) {
+          super(props);
+          this.state = {
+            files: []
+          };
+        }
+
+        componentWillMount() {
+          fetch('http://localhost:3000/api/files')
+            .then(res => res.json())
+            .then(({ data }) => {
+              this.setState({
+                files: data
+              });
+            });
+        }
+
+        handleClick(item) {
+          window.open(`/api/download/${item}`, 'myIframe');
+        }
+
+        render() {
+          return (
+            <table className="ui celled table">
+              <thead>
+                <tr>
+                  <th className="two wide">序号</th>
+                  <th className="ten wide">名称</th>
+                  <th className="four wide">操作</th>
+                </tr>
+              </thead>
+              <tbody>
+                {this.state.files.map((file, i) => (
+                  <tr key={i}>
+                    <td>{i + 1}</td>
+                    <td>{file}</td>
+                    <td>
+                      <button
+                        className="ui green mini button"
+                        onClick={() => this.handleClick(file)}
+                      >
+                        下载
+                      </button>
+                      <button
+                        className="ui red mini button"
+                        onClick={() => this.handleClick(file)}
+                      >
+                        删除
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          );
+        }
+      }
+
+      const App = props => (
+        <div className="ui container">
+          <h1 className="ui header" style={{marginTop: '20px'}}>上传下载文件</h1>
+          <Upload />
+          <List />
+        </div>
+      );
+
+      const app = document.querySelector('#app');
+      ReactDOM.render(<App />, app);
     </script>
   </body>
 </html>
